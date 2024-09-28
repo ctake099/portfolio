@@ -2,10 +2,10 @@
 const nextConfig = {
   output: 'export',
   images: {
-    unoptimized: true,  // 画像最適化を無効にする
+    unoptimized: true,
   },
-  basePath: '/portfolio',
-  assetPrefix: '/portfolio',  // ここで静的ファイルのパスを指定
+  basePath: process.env.NEXT_PUBLIC_ASSET_PREFIX,  // .env.localから読み込み
+  assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,  // .env.localから読み込み
   reactStrictMode: true,
 };
 
