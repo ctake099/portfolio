@@ -1,59 +1,94 @@
-
 "use client"
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Moon, Sun, Mail, Twitter, Github, Code, BookOpen, Briefcase, Pen, GraduationCap, User, Link as LinkIcon } from 'lucide-react'
+import { Moon, Sun, Menu, Mail, Twitter, Github, Code, BookOpen, Briefcase, Pen, GraduationCap, User, Link as LinkIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Portfolio() {
-  const [darkMode, setDarkMode] = useState(false); // 初期値を false に設定
-  const [mounted, setMounted] = useState(false);
-
-  // マウント時の処理
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // クライアントサイドで `localStorage` からダークモードの状態を取得
   useEffect(() => {
-    setMounted(true);
-
-    // マウント後に localStorage から設定を取得
-    const savedDarkMode = localStorage.getItem("darkMode") === "true";
-    setDarkMode(savedDarkMode); // ここで darkMode を設定
+    if (typeof window !== 'undefined') {
+      const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+      setDarkMode(storedDarkMode);
+    }
   }, []);
-
+  
   // ダークモードの適用と保存
   useEffect(() => {
-    if (mounted) { // マウント完了後に実行
-      if (darkMode) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem("darkMode", "true");
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem("darkMode", "false");
-      }
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-  }, [darkMode, mounted]); // mounted も依存に追加
-
-  // クライアントサイドのマウントが完了するまでUIを表示しない
-  if (!mounted) return null;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('darkMode', darkMode);
+    }
+  }, [darkMode]);
+  
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <header className="sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-md">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <nav className="flex space-x-4">
-            <Link href="#profile" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">About Me</Link>
-            <Link href="#skills" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Skills</Link>
-            <Link href="#projects" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Project</Link>
-            <Link href="#blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Blog</Link>
-            <Link href="#contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Contact</Link>
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400 transition-colors duration-200"
-              aria-label={darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
-            >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-          </nav>
-        </div>
-      </header>
+      <header className="top-0 z-10 bg-white dark:bg-gray-800 shadow-md">
+  <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    {/* 左側のコンテンツ */}
+    <div className="flex items-center">
+      {/* ハンバーガーメニューアイコン */}
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="md:hidden p-2 mr-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400 transition-colors duration-200"
+        aria-label="メニューを開閉"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+      {/* ナビゲーションメニュー */}
+      <nav className="hidden md:flex space-x-4">
+        <Link href="#profile" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">About Me</Link>
+        <Link href="#skills" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Skills</Link>
+        <Link href="#projects" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Project</Link>
+        <Link href="#blog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Blog</Link>
+        <Link href="#contact" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Contact</Link>
+      </nav>
+    </div>
+    {/* 右側のアイコン */}
+    <div className="flex items-center">
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-400 transition-colors duration-200"
+        aria-label={darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
+      >
+        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+      </button>
+    </div>
+  </div>
+  {/* モバイル用ナビゲーションメニュー */}
+  {menuOpen && (
+    <nav className="absolute top-16 left-4 bg-white dark:bg-gray-800 shadow-md rounded-md w-48">
+      <ul className="py-2">
+        <li>
+          <Link href="#profile" onClick={() => setMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">About Me</Link>
+        </li>
+        <li>
+          <Link href="#skills" onClick={() => setMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Skills</Link>
+        </li>
+        <li>
+          <Link href="#projects" onClick={() => setMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Project</Link>
+        </li>
+        <li>
+          <Link href="#blog" onClick={() => setMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Blog</Link>
+        </li>
+        <li>
+          <Link href="#contact" onClick={() => setMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Contact</Link>
+        </li>
+      </ul>
+    </nav>
+  )}
+</header>
+
+
+
       <main className="container mx-auto px-4 py-8">
         <section id="profile" className="mb-16 text-center">
           <div className="mb-8">
@@ -156,7 +191,7 @@ export default function Portfolio() {
           </div>
         </section>
         <section id="blog" className="mb-16">
-          <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center text-gray-800 dark:text-gray-200">
+          <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center text-red-600 dark:text-red-400">
             <Pen className="w-8 h-8 mr-2" />
             Blog
           </h2>
