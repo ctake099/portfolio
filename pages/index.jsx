@@ -93,7 +93,7 @@ export default function Portfolio() {
         <section id="profile" className="mb-16 text-center">
           <div className="mb-8">
             <Image
-              src={`${process.env.assetPrefix}/latte.jpg`}
+              src={`${process.env.assetPrefix || ''}/latte.jpg`}
               alt="新宮 尊"
               width={200}
               height={200}
@@ -179,7 +179,7 @@ export default function Portfolio() {
               },
             ].map((project, index) => (
               <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                <img src={`${process.env.assetPrefix}${project.image}`} alt={project.title} className="w-full h-48 object-cover mb-4" />
+                <img src={`${process.env.assetPrefix || ''}${project.image}`} alt={project.title} className="w-full h-48 object-cover mb-4" />
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
                 <div className="mb-4 flex flex-wrap gap-2">
