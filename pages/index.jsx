@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import projects from "../data/projects";
+import projects from "../content/projects/projects";
 import ProjectCard from "../components/ProjectCard";
 import Image from 'next/image'
 import { Moon, Sun, Menu, Mail, Twitter, Github, Code, BookOpen, Briefcase, Pen, GraduationCap, User, Link as LinkIcon, Tag, SquareTerminal } from 'lucide-react'
