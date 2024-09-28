@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import projects from "../data/projects";
+import ProjectCard from "../components/ProjectCard";
 import Image from 'next/image'
 import { Moon, Sun, Menu, Mail, Twitter, Github, Code, BookOpen, Briefcase, Pen, GraduationCap, User, Link as LinkIcon, Tag, SquareTerminal } from 'lucide-react'
 import Link from 'next/link'
@@ -134,67 +136,18 @@ export default function Portfolio() {
         </section>
 
 
-        <section id="skills" className="mb-16 px-4 lg:px-16 xl:px-32">  {/* Adjust padding for different screen sizes */}
-          <h2 className="text-3xl font-bold mb-2 text-left flex items-center justify-start text-green-600 dark:text-green-400">
-            <Code className="w-8 h-8 mr-2" />
-            Skills
-          </h2>
-          <div className="max-w-4xl mx-auto pl-10 space-y-4 text-left text-lg">  {/* Adding padding to indent the text */}
-            <h3 className="font-semibold">Programming Languages</h3>
-            <p>Python, JavaScript, Java, C, PHP</p>
-
-            <h3 className="font-semibold">Frameworks and Tools</h3>
-            <p>Django, Next.js</p>
-
-            <h3 className="font-semibold">DevOps Tools</h3>
-            <p>AWS, Azure, Github</p>
-          </div>
-        </section>
-
-
         <section id="projects" className="mb-16 px-4 lg:px-16 xl:px-32">
           <h2 className="text-3xl font-bold mb-8 text-left flex items-center justify-start text-purple-600 dark:text-purple-400">
             <Briefcase className="w-8 h-8 mr-2" />
             Project
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: "ToDoアプリ",
-                description: "ReactとDjango Rest Frameworkを使用したタスク管理アプリ。ユーザー認証、タスクのCRUD操作、締め切り通知機能を実装。",
-                image: "/placeholder.svg?height=200&width=300",
-                tags: ["React", "Django", "REST API"]
-              },
-              {
-                title: "チャットメッセンジャー",
-                description: "TCP/UDPプロトコルを利用したCUIベースのチャットアプリケーション。複数ユーザーによるリアルタイムコミュニケーションを実現。",
-                image: "/placeholder.svg?height=200&width=300",
-                tags: ["Python", "ネットワーク", "マルチスレッド"]
-              },
-              {
-                title: "テトリス",
-                description: "JavaScriptを使用したチーム開発プロジェクト。モダンなUIと高速な描画処理を実現し、複数難易度モードを実装。",
-                image: "/placeholder.svg?height=200&width=300",
-                tags: ["JavaScript", "Canvas", "チーム開発"]
-              },
-            ].map((project, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
-                <img src={`${process.env.NEXT_PUBLIC_ASSET_PREFIX}${project.image}`} alt={project.title} className="w-full h-48 object-cover mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
-                <div className="mb-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm flex items-center">
-                      <Tag className="w-3 h-3 mr-2" />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline transition-colors duration-200">詳細を見る</a>
-              </div>
+            {projects.map((project, index) => (
+              <ProjectCard key={index} project={project} />
             ))}
           </div>
         </section>
+
 
         <section id="internship" className="mb-16 px-4 lg:px-16 xl:px-32">
           <h2 className="text-3xl font-bold mb-8 text-left flex items-center justify-start text-cyan-600 dark:text-cyan-400">
