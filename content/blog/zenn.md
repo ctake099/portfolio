@@ -1,11 +1,19 @@
 ---
 title: 'Zenn記法'
 date: '2024-09-29'
-tag: ['markdown', 'zenn']
+tags: ['markdown', 'zenn']
+author: 'Takeru Shingu'
+readingTime: '3 min'
 ---
+
 # 見出し1
+ここが見出し1です
+
 ## 見出し2
+ここが見出し2です
+
 ### 見出し3
+ここが見出し3です
 
 *斜体*
 **太字**

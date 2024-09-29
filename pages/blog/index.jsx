@@ -1,85 +1,100 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Github, Twitter, User, Calendar, ArrowRight } from 'lucide-react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-export default function Blog({ posts }) {
+export default function Home({ posts }) {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* 左側: プロフィール */}
-        <div className="col-span-1 md:col-span-1 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <div className="text-center mb-6">
-            <Image
-              src="/images/profile-pic.png" // プロフィール画像
-              alt="プロフィール"
-              width={100}
-              height={100}
-              className="rounded-full mx-auto"
-            />
-            <h2 className="text-2xl font-bold mt-4">Takeru Shingu</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">AI Enthusiast / Developer</p>
-          </div>
-
-          {/* SNSリンク */}
-          <div className="flex justify-center space-x-4 mt-4">
-            <Link href="https://github.com/ctake099" passHref>
-              <a target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-gray-900">
-                <i className="fab fa-github fa-lg"></i> GitHub
-              </a>
-            </Link>
-            <Link href="https://twitter.com/AIkiwametai" passHref>
-              <a target="_blank" className="text-gray-600 dark:text-gray-400 hover:text-blue-500">
-                <i className="fab fa-twitter fa-lg"></i> Twitter
-              </a>
-            </Link>
-          </div>
-
-          {/* 基本情報 */}
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold">プロフィール</h3>
-            <ul className="mt-4 space-y-2">
-              <li>投稿数: {posts.length} 記事</li>
-              <li>読者数: 89人</li>
-              {/* 他の情報も追加可能 */}
-            </ul>
-          </div>
-        </div>
-
-        {/* 右側: 記事一覧 */}
-        <div className="col-span-1 md:col-span-2 space-y-6">
-          {posts.map((post, index) => (
-            <div
-              key={index}
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
-            >
-              <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">
-                {post.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">{post.date}</p>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">{post.excerpt}</p>
-              <Link href={`/blog/${post.slug}`}>
-                <a className="text-blue-600 dark:text-blue-400 hover:underline transition-colors duration-200">
-                  続きを読む
-                </a>
-              </Link>
+    <div className="min-h-screen bg-gray-100"> {/* 背景を薄いグレーに変更 */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Profile Section */}
+          <div className="col-span-1">
+            <div className="sticky top-8">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <div className="relative h-48 bg-gradient-to-r from-blue-500 to-purple-600">
+                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+                    <Image
+                      src="/latte.jpg"
+                      alt="Takeru Shingu"
+                      width={100}
+                      height={100}
+                      className="rounded-full border-4 border-white dark:border-gray-800"
+                    />
+                  </div>
+                </div>
+                <div className="pt-16 pb-8 px-6 text-center">
+                  <h2 className="text-2xl font-bold mb-2 flex items-center justify-center text-black">
+                    <User className="w-6 h-6 mr-2 text-blue-500" />
+                    @ctake099
+                  </h2>
+                  <p className="text-black mb-6">Developer</p> {/* テキストを黒に変更 */}
+                  <div className="flex justify-center space-x-4 mb-6">
+                    <Link
+                      href="https://github.com/ctake099"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors duration-200"
+                    >
+                      <Github className="w-6 h-6" />
+                    </Link>
+                    <Link
+                      href="https://twitter.com/AIkiwametai"
+                      className="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors duration-200"
+                    >
+                      <Twitter className="w-6 h-6" />
+                    </Link>
+                  </div>
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                    <div className="flex justify-center">
+                      <div>
+                        <p className="text-2xl font-bold text-blue-500">{posts ? posts.length : 0}</p>
+                        <p className="text-sm text-black">Posts</p> {/* テキストを黒に変更 */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
+
+          {/* Blog Posts */}
+          <div className="col-span-1 lg:col-span-2 space-y-8">
+            {posts.map((post, index) => (
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+              >
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-2 text-black">{post.title}</h3> {/* タイトルを黒に変更 */}
+                  <p className="text-black text-sm mb-4 flex items-center"> {/* テキストを黒に変更 */}
+                    <Calendar className="w-4 h-4 mr-2" />
+                    {post.date}
+                  </p>
+                  <p className="text-black mb-4">{post.excerpt}</p> {/* 抜粋を黒に変更 */}
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="inline-flex items-center text-blue-500 hover:text-blue-600 transition-colors duration-200"
+                  >
+                    続きを読む
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
+// getStaticPropsを使って投稿データを取得
 export async function getStaticProps() {
   const files = fs.readdirSync(path.join('content/blog'));
 
   const posts = files.map((filename) => {
-    const markdownWithMeta = fs.readFileSync(
-      path.join('content/blog', filename),
-      'utf-8'
-    );
+    const markdownWithMeta = fs.readFileSync(path.join('content/blog', filename), 'utf-8');
     const { data: frontmatter, content } = matter(markdownWithMeta);
 
     return {
