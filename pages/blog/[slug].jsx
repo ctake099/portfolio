@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import html from 'remark-html';
+import markdownHtml from 'zenn-markdown-html';  // 追加
+import 'zenn-content-css';  // ZennのCSSを読み込む
 
 export default function BlogPost({ frontmatter, content }) {
   return (
-    <div className="prose dark:prose-dark mx-auto">
+    <div className="znc prose dark:prose-dark mx-auto">
       <h1>{frontmatter.title}</h1>
       <p>{frontmatter.date}</p>
       <div dangerouslySetInnerHTML={{ __html: content }} />
@@ -33,8 +33,8 @@ export async function getStaticProps({ params: { slug } }) {
   const markdownWithMeta = fs.readFileSync(path.join('content/blog', slug + '.md'), 'utf-8');
   const { data: frontmatter, content } = matter(markdownWithMeta);
 
-  const processedContent = await remark().use(html).process(content);
-  const contentHtml = processedContent.toString();
+  // Zenn形式のMarkdownをHTMLに変換
+  const contentHtml = markdownHtml(content);
 
   return {
     props: {
