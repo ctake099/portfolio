@@ -1,7 +1,9 @@
+// pages/index.jsx
+
 "use client"
 
 import { useState, useEffect } from 'react'
-import PortfolioComponent from "../components/Portfolio"; // インポート名を変更
+import Portfolio from "../components/Portfolio"; // インポート名を変更
 import Image from 'next/image'
 import {
   Moon, Sun, Menu, Mail, Twitter, Github, Code, BookOpen, Briefcase,
@@ -12,6 +14,7 @@ import Link from 'next/link'
 export default function Home() { // 関数名を 'Home' に変更
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [posts, setPosts] = useState([]); // posts を定義
 
   // クライアントサイドで `localStorage` からダークモードの状態を取得
   useEffect(() => {
@@ -33,8 +36,25 @@ export default function Home() { // 関数名を 'Home' に変更
     }
   }, [darkMode]);
 
+  // データのフェッチ
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch('/api/posts'); // APIルートを作成
+        if (!res.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await res.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
-    <PortfolioComponent /> // 修正したコンポーネント名を使用
+    <Portfolio posts={posts}/> // 修正したプロップ名を使用
   )
 }
-

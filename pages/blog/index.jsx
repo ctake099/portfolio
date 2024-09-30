@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter, User, Calendar, ArrowRight } from 'lucide-react';
 import matter from 'gray-matter';
+import markdownToTxt from 'markdown-to-txt';
 
 export default function Home({ posts }) {
   return (
@@ -126,10 +127,12 @@ export async function getStaticProps() {
     return {
       title: frontmatter.title,
       date: frontmatter.date,
-      excerpt: content.substring(0, 100), // 最初の100文字を表示
+      excerpt: markdownToTxt(content.substring(0, 100)), // 最初の100文字を表示
       slug: slugArray,
     };
   });
+
+  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return {
     props: {

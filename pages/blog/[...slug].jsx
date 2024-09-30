@@ -119,7 +119,7 @@ export default function BlogPost({ frontmatter, content }) {
               <div className="flex items-center mb-4">
                 <Avatar src="/latte.jpg" alt={frontmatter.author} size="large" />
                 <div className="ml-4">
-                  <h3 className="text-xl font-semibold">{frontmatter.author}</h3>
+                  <h3 className="text-xl font-semibold text-black">{frontmatter.author}</h3>
                   <p className="text-gray-600">AI Enthusiast / Developer</p>
                 </div>
               </div>

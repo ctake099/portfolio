@@ -7,7 +7,7 @@ import InternshipSection from './InternshipSection';
 import BlogSection from './BlogSection';
 import ContactSection from './ContactSection';
 
-const Portfolio = () => (
+const Portfolio = ({ posts }) => (
   <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <Header />
     <main className="container mx-auto px-4 py-8">
@@ -15,7 +15,7 @@ const Portfolio = () => (
       <AboutSection />
       <ProjectsSection />
       <InternshipSection />
-      <BlogSection />
+      <BlogSection posts={posts}/>
       <ContactSection />
     </main>
     <Footer />
