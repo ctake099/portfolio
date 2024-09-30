@@ -89,19 +89,36 @@ export default function Home({ posts }) {
   );
 }
 
-// getStaticPropsを使って投稿データを取得
-export async function getStaticProps() {
-  const files = fs.readdirSync(path.join('content/blog'));
+const getAllFiles = (dirPath, arrayOfFiles = []) => {
+  const files = fs.readdirSync(dirPath);
 
-  const posts = files.map((filename) => {
-    const markdownWithMeta = fs.readFileSync(path.join('content/blog', filename), 'utf-8');
+  files.forEach((file) => {
+    if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+      arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
+    } else {
+      arrayOfFiles.push(path.join(dirPath, file));
+    }
+  });
+
+  return arrayOfFiles;
+};
+
+
+export async function getStaticProps() {
+  const dirPath = path.join('content/blog');
+  const files = getAllFiles(dirPath).filter((file) => file.endsWith('.md')); // .md ファイルのみを対象にする
+
+  const posts = files.map((filePath) => {
+    const markdownWithMeta = fs.readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content } = matter(markdownWithMeta);
 
     return {
       title: frontmatter.title,
       date: frontmatter.date,
       excerpt: content.substring(0, 100), // 最初の100文字を表示
-      slug: filename.replace('.md', ''),
+      slug: filePath
+        .replace(`${dirPath}/`, '') // `content/blog/` の部分を削除
+        .replace('.md', ''), // `.md` 拡張子を削除
     };
   });
 
@@ -111,3 +128,4 @@ export async function getStaticProps() {
     },
   };
 }
+
