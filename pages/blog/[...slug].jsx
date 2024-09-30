@@ -87,7 +87,7 @@ export default function BlogPost({ frontmatter, content }) {
               </div>
             )}
 
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">{frontmatter.title}</h1>
+            <h1 className="text-4xl font-bold mb-4 text-black">{frontmatter.title}</h1>
 
             {/* 著者情報 */}
             <div className="flex items-center mb-6">
@@ -108,7 +108,7 @@ export default function BlogPost({ frontmatter, content }) {
             </div>
 
             {/* コンテンツ */}
-            <div className="prose prose-lg max-w-none znc">
+            <div className="prose prose-lg max-w-none znc text-black">
               <div dangerouslySetInnerHTML={{ __html: content }} />
             </div>
 
