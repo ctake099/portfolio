@@ -93,7 +93,7 @@ export default function BlogPost({ frontmatter, content }) {
             <div className="flex items-center mb-6">
               <Avatar src="/latte.jpg" alt={frontmatter.author} size="large" />
               <div className="ml-4">
-                <p className="font-medium text-gray-900">{frontmatter.author}</p>
+                <p className="font-medium text-black">{frontmatter.author}</p>
                 <div className="flex items-center text-sm text-gray-500">
                   <CalendarIcon className="w-4 h-4 mr-1" />
                   <span className="mr-4">{frontmatter.date}</span>
