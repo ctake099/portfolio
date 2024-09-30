@@ -120,13 +120,11 @@ export default function BlogPost({ frontmatter, content }) {
                 <Avatar src="/latte.jpg" alt={frontmatter.author} size="large" />
                 <div className="ml-4">
                   <h3 className="text-xl font-semibold text-black">{frontmatter.author}</h3>
-                  <p className="text-gray-600">AI Enthusiast / Developer</p>
+                  <p className="text-gray-600">Developer</p>
                 </div>
               </div>
               <p className="text-gray-700 mb-4">
-                Takeru Shingu is passionate about AI and its potential to transform our world. With
-                a background in software development, he explores the intersection of technology and
-                human creativity.
+              東京工科大学で人工知能を専攻している2年生。個人開発やAIの学習で学んだことを適当に綴っていきます。。
               </p>
               <div className="flex space-x-4">
                 <Button variant="outline" size="sm">

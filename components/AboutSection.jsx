@@ -9,10 +9,10 @@ const AboutSection = () => (
     <div className="max-w-4xl mx-auto pl-10 space-y-4 text-left">
       <div className="flex items-center justify-start mb-4">
         <GraduationCap className="w-6 h-6 mr-2 text-gray-600 dark:text-gray-400" />
-        <h3 className="text-lg">東京工科大学コンピュータサイエンス学部人工知能専攻 B3</h3>
+        <h3 className="text-lg">東京工科大学コンピュータサイエンス学部人工知能専攻 B2</h3>
       </div>
-      <p>大学以外で、オンライン学習サイト「Recursion」を使用して、CSを勉強中。</p>
-      <p>低レイヤーのプログラミングに興味あり、勉強中。コンパイラ作りたい。</p>
+      <p>Web開発とLLMと強化学習に興味があります。</p>
+      <p>CSについて幅広く勉強中。。。</p>
     </div>
   </section>
 );

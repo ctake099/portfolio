@@ -1,40 +1,22 @@
 // data/projects.js
 const projects = [
     {
-      title: "ToDoアプリ",
-      description: "ReactとDjango Rest Frameworkを使用したタスク管理アプリ。ユーザー認証、タスクのCRUD操作、締め切り通知機能を実装。",
-      image: "/projects/placeholder.svg",
-      tags: ["React", "Django", "REST API"]
-    },
-    {
       title: "チャットメッセンジャー",
-      description: "TCP/UDPプロトコルを利用したCUIベースのチャットアプリケーション。複数ユーザーによるリアルタイムコミュニケーションを実現。",
-      image: "/projects/placeholder.svg",
-      tags: ["Python", "ネットワーク", "マルチスレッド"]
+      description: "TCP/UDPプロトコルを利用したCUIベースのチャットアプリケーション。複数ユーザーによるリアルタイムコミュニケーションができます",
+      image: "/projects/chat.png",
+      tags: ["Python", "TCP/UDP", "CUI"]
     },
     {
-      title: "テトリス",
-      description: "JavaScriptを使用したチーム開発プロジェクト。モダンなUIと高速な描画処理を実現し、複数難易度モードを実装。",
-      image: "/projects/placeholder.svg",
-      tags: ["JavaScript", "Canvas", "チーム開発"]
+      title: "Tetris",
+      description: "JavaScriptを使用したチーム開発プロジェクト。初めてのチーム開発で作成しました",
+      image: "/projects/tetris.png",
+      tags: ["JavaScript", "チーム開発"]
     },
     {
-      title: "テトリス",
-      description: "JavaScriptを使用したチーム開発プロジェクト。モダンなUIと高速な描画処理を実現し、複数難易度モードを実装。",
-      image: "/projects/placeholder.svg",
-      tags: ["JavaScript", "Canvas", "チーム開発"]
-    },
-    {
-      title: "テトリス",
-      description: "JavaScriptを使用したチーム開発プロジェクト。モダンなUIと高速な描画処理を実現し、複数難易度モードを実装。",
-      image: "/projects/placeholder.svg",
-      tags: ["JavaScript", "Canvas", "チーム開発"]
-    },
-    {
-      title: "テトリス",
-      description: "JavaScriptを使用したチーム開発プロジェクト。モダンなUIと高速な描画処理を実現し、複数難易度モードを実装。",
-      image: "/projects/placeholder.svg",
-      tags: ["JavaScript", "Canvas", "チーム開発"]
+      title: "Portfolio",
+      description: "Next.jsでポートフォリオを作成しました。BlogをZenn",
+      image: "/projects/portfolio.png",
+      tags: ["Next.js", "javascript", "TailwindCSS", "Markdown"]
     },
   ];
   

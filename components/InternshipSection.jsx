@@ -7,11 +7,11 @@ const InternshipSection = () => (
       Internship
     </h2>
     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-2">ソフトウェアエンジニア インターン</h3>
-      <p className="text-gray-600 dark:text-gray-300 mb-4">テックコープ株式会社 | 2023年7月1日 〜 2023年8月31日</p>
+      <h3 className="text-xl font-semibold mb-2">AIコース インターン</h3>
+      <p className="text-gray-600 dark:text-gray-300 mb-4">TOWN株式会社 | 2024年9月 ~ 2024年10月</p>
       <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-        クラウドベースのプロジェクト管理ツールの機能開発に携わり、バックエンドAPIの設計と実装を担当。
-        また、データベースクエリの最適化プロジェクトに参加し、パフォーマンス改善に貢献しました。
+      Google Apps Script（GAS）を活用して音声会話から自動的に議事録を作成するシステムを開発。また、Azure Text to Speechを使用して会議内容の音声出力機能を実装。
+      会社名から業務名を予測するタスクにも取り組みました。
       </p>
     </div>
   </section>

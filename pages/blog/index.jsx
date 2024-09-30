@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter, User, Calendar, ArrowRight } from 'lucide-react';
-import matter from 'gray-matter';
 import markdownToTxt from 'markdown-to-txt';
 
 export default function Home({ posts }) {

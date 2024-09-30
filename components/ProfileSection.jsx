@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { User, Github, Twitter, Link as LinkIcon } from 'lucide-react';
 
 const ProfileSection = () => (
@@ -19,16 +20,29 @@ const ProfileSection = () => (
     </h2>
     <p className="mb-4 text-xl">Hello!👋</p>
     <div className="flex justify-center space-x-4 mb-6">
-      <a href="https://github.com/ctake099" target="_blank" rel="noopener noreferrer" className="flex items-center">
+      <Link
+        href="https://github.com/ctake099"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center"
+      >
         <Github className="w-5 h-5 mr-1" /> @ctake099
-      </a>
-      <a href="https://twitter.com/AIkiwametai" target="_blank" rel="noopener noreferrer" className="flex items-center">
+      </Link>
+      <Link
+        href="https://twitter.com/AIkiwametai"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center"
+      >
         <Twitter className="w-5 h-5 mr-1" /> @AIkiwametai
-      </a>
+      </Link>
     </div>
-    <a href="#Blog" className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full">
+    <Link
+      href="/blog"
+      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full"
+    >
       <LinkIcon className="w-5 h-5 mr-2" /> Blog
-    </a>
+    </Link>
   </section>
 );
 
