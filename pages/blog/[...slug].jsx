@@ -1,18 +1,20 @@
-// pages/blog/[slug].jsx
+// pages/blog/[...slug].jsx
 
 import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import markdownHtml from 'zenn-markdown-html';
 import 'zenn-content-css';
 import { CalendarIcon, ClockIcon, ArrowLeft, Twitter, Github } from 'lucide-react';
 
 // Buttonコンポーネント
 export function Button({ children, variant, size, ...props }) {
-  const baseClass = "rounded px-4 py-2 transition-colors duration-200";
-  const variantClass = variant === 'outline' ? "border border-gray-300 text-gray-700 hover:bg-gray-100" : "bg-blue-500 text-white";
-  const sizeClass = size === 'sm' ? "text-sm" : "text-base";
+  const baseClass = 'rounded px-4 py-2 transition-colors duration-200';
+  const variantClass =
+    variant === 'outline'
+      ? 'border border-gray-300 text-gray-700 hover:bg-gray-100'
+      : 'bg-blue-500 text-white';
+  const sizeClass = size === 'sm' ? 'text-sm' : 'text-base';
   return (
     <button className={`${baseClass} ${variantClass} ${sizeClass}`} {...props}>
       {children}
@@ -61,10 +63,10 @@ export default function BlogPost({ frontmatter, content }) {
         <header className="bg-white shadow-sm">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Link href="/blog">
-              <a className="flex items-center text-gray-600 hover:text-gray-900">
+              <span className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer">
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back to Blog
-              </a>
+              </span>
             </Link>
           </div>
         </header>
@@ -72,13 +74,18 @@ export default function BlogPost({ frontmatter, content }) {
         <main className="container mx-auto px-4 py-8">
           <article className="max-w-3xl mx-auto">
             {/* タグとタイトル */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {frontmatter.tags.map((tag, index) => (
-                <span key={index} className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {frontmatter.tags && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {frontmatter.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             <h1 className="text-4xl font-bold mb-4 text-gray-900">{frontmatter.title}</h1>
 
@@ -90,8 +97,12 @@ export default function BlogPost({ frontmatter, content }) {
                 <div className="flex items-center text-sm text-gray-500">
                   <CalendarIcon className="w-4 h-4 mr-1" />
                   <span className="mr-4">{frontmatter.date}</span>
-                  <ClockIcon className="w-4 h-4 mr-1" />
-                  <span>{frontmatter.readingTime} read</span>
+                  {frontmatter.readingTime && (
+                    <>
+                      <ClockIcon className="w-4 h-4 mr-1" />
+                      <span>{frontmatter.readingTime} read</span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -113,8 +124,9 @@ export default function BlogPost({ frontmatter, content }) {
                 </div>
               </div>
               <p className="text-gray-700 mb-4">
-                Takeru Shingu is passionate about AI and its potential to transform our world.
-                With a background in software development, he explores the intersection of technology and human creativity.
+                Takeru Shingu is passionate about AI and its potential to transform our world. With
+                a background in software development, he explores the intersection of technology and
+                human creativity.
               </p>
               <div className="flex space-x-4">
                 <Button variant="outline" size="sm">
@@ -123,10 +135,10 @@ export default function BlogPost({ frontmatter, content }) {
                 </Button>
                 <Button variant="outline" size="sm">
                   <Link href="https://github.com/ctake099">
-                    <a className="flex items-center">
+                    <span className="flex items-center">
                       <Github className="w-4 h-4 mr-2" />
                       Follow on GitHub
-                    </a>
+                    </span>
                   </Link>
                 </Button>
               </div>
@@ -141,19 +153,40 @@ export default function BlogPost({ frontmatter, content }) {
   );
 }
 
-// getStaticPaths関数とgetStaticProps関数はサーバーサイドでのみ実行されます
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-
+// getStaticPaths と getStaticProps
 export async function getStaticPaths() {
-  const files = fs.readdirSync(path.join('content/blog'));
+  const fs = await import('fs');
+  const path = await import('path');
 
-  const paths = files.map((filename) => ({
-    params: {
-      slug: filename.replace(/\.md$/, ''),
-    },
-  }));
+  const blogDirectory = path.join(process.cwd(), 'content/blog');
+
+  // 再帰的に Markdown ファイルを取得する関数
+  const getAllMarkdownFiles = (dirPath, arrayOfFiles = []) => {
+    const files = fs.readdirSync(dirPath);
+
+    files.forEach((file) => {
+      const fullPath = path.join(dirPath, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        arrayOfFiles = getAllMarkdownFiles(fullPath, arrayOfFiles);
+      } else if (fullPath.endsWith('.md')) {
+        arrayOfFiles.push(fullPath);
+      }
+    });
+
+    return arrayOfFiles;
+  };
+
+  const files = getAllMarkdownFiles(blogDirectory);
+
+  const paths = files.map((filePath) => {
+    const relativePath = path.relative(blogDirectory, filePath);
+    const slugArray = relativePath.replace(/\.md$/, '').split(path.sep);
+    return {
+      params: {
+        slug: slugArray,
+      },
+    };
+  });
 
   return {
     paths,
@@ -161,11 +194,24 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params: { slug } }) {
-  const filePath = path.join('content/blog', slug + '.md');
-  const markdownWithMeta = fs.readFileSync(filePath, 'utf-8');
-  const { data: frontmatter, content } = matter(markdownWithMeta);
+export async function getStaticProps({ params }) {
+  const fs = await import('fs');
+  const path = await import('path');
+  const matter = (await import('gray-matter')).default;
+  const markdownHtml = (await import('zenn-markdown-html')).default;
 
+  const blogDirectory = path.join(process.cwd(), 'content/blog');
+  const slugPath = path.join(...params.slug) + '.md';
+  const fullPath = path.join(blogDirectory, slugPath);
+
+  if (!fs.existsSync(fullPath)) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const markdownWithMeta = fs.readFileSync(fullPath, 'utf-8');
+  const { data: frontmatter, content } = matter(markdownWithMeta);
   const contentHtml = markdownHtml(content);
 
   return {

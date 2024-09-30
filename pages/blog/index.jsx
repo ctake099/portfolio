@@ -1,16 +1,16 @@
+// pages/blog/index.jsx
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter, User, Calendar, ArrowRight } from 'lucide-react';
-import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
 
 export default function Home({ posts }) {
   return (
-    <div className="min-h-screen bg-gray-100"> {/* 背景を薄いグレーに変更 */}
+    <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Profile Section */}
+          {/* プロフィールセクション */}
           <div className="col-span-1">
             <div className="sticky top-8">
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
@@ -30,7 +30,7 @@ export default function Home({ posts }) {
                     <User className="w-6 h-6 mr-2 text-blue-500" />
                     @ctake099
                   </h2>
-                  <p className="text-black mb-6">Developer</p> {/* テキストを黒に変更 */}
+                  <p className="text-black mb-6">Developer</p>
                   <div className="flex justify-center space-x-4 mb-6">
                     <Link
                       href="https://github.com/ctake099"
@@ -48,8 +48,10 @@ export default function Home({ posts }) {
                   <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                     <div className="flex justify-center">
                       <div>
-                        <p className="text-2xl font-bold text-blue-500">{posts ? posts.length : 0}</p>
-                        <p className="text-sm text-black">Posts</p> {/* テキストを黒に変更 */}
+                        <p className="text-2xl font-bold text-blue-500">
+                          {posts ? posts.length : 0}
+                        </p>
+                        <p className="text-sm text-black">Posts</p>
                       </div>
                     </div>
                   </div>
@@ -58,7 +60,7 @@ export default function Home({ posts }) {
             </div>
           </div>
 
-          {/* Blog Posts */}
+          {/* ブログ投稿一覧 */}
           <div className="col-span-1 lg:col-span-2 space-y-8">
             {posts.map((post, index) => (
               <div
@@ -66,14 +68,14 @@ export default function Home({ posts }) {
                 className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
                 <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2 text-black">{post.title}</h3> {/* タイトルを黒に変更 */}
-                  <p className="text-black text-sm mb-4 flex items-center"> {/* テキストを黒に変更 */}
+                  <h3 className="text-2xl font-bold mb-2 text-black">{post.title}</h3>
+                  <p className="text-black text-sm mb-4 flex items-center">
                     <Calendar className="w-4 h-4 mr-2" />
                     {post.date}
                   </p>
-                  <p className="text-black mb-4">{post.excerpt}</p> {/* 抜粋を黒に変更 */}
+                  <p className="text-black mb-4">{post.excerpt}</p>
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`/blog/${post.slug.join('/')}`}
                     className="inline-flex items-center text-blue-500 hover:text-blue-600 transition-colors duration-200"
                   >
                     続きを読む
@@ -89,36 +91,43 @@ export default function Home({ posts }) {
   );
 }
 
-const getAllFiles = (dirPath, arrayOfFiles = []) => {
-  const files = fs.readdirSync(dirPath);
-
-  files.forEach((file) => {
-    if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
-      arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
-    } else {
-      arrayOfFiles.push(path.join(dirPath, file));
-    }
-  });
-
-  return arrayOfFiles;
-};
-
-
+// getStaticProps 関数
 export async function getStaticProps() {
-  const dirPath = path.join('content/blog');
-  const files = getAllFiles(dirPath).filter((file) => file.endsWith('.md')); // .md ファイルのみを対象にする
+  const fs = await import('fs');
+  const path = await import('path');
+  const matter = (await import('gray-matter')).default;
+
+  // 再帰的に Markdown ファイルを取得する関数
+  const getAllMarkdownFiles = (dirPath, arrayOfFiles = []) => {
+    const files = fs.readdirSync(dirPath);
+
+    files.forEach((file) => {
+      const fullPath = path.join(dirPath, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        arrayOfFiles = getAllMarkdownFiles(fullPath, arrayOfFiles);
+      } else if (fullPath.endsWith('.md')) {
+        arrayOfFiles.push(fullPath);
+      }
+    });
+
+    return arrayOfFiles;
+  };
+
+  const blogDirectory = path.join(process.cwd(), 'content/blog');
+  const files = getAllMarkdownFiles(blogDirectory);
 
   const posts = files.map((filePath) => {
     const markdownWithMeta = fs.readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content } = matter(markdownWithMeta);
 
+    const relativePath = path.relative(blogDirectory, filePath);
+    const slugArray = relativePath.replace(/\.md$/, '').split(path.sep);
+
     return {
       title: frontmatter.title,
       date: frontmatter.date,
       excerpt: content.substring(0, 100), // 最初の100文字を表示
-      slug: filePath
-        .replace(`${dirPath}/`, '') // `content/blog/` の部分を削除
-        .replace('.md', ''), // `.md` 拡張子を削除
+      slug: slugArray,
     };
   });
 
@@ -128,4 +137,3 @@ export async function getStaticProps() {
     },
   };
 }
-
