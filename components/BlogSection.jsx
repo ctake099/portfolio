@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Pen } from 'lucide-react';
 
 // components/BlogSection.jsx
@@ -13,9 +14,9 @@ const BlogSection = ({ posts }) => (
           <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{post.title}</h3>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">{post.date}</p>
           <p className="text-gray-700 dark:text-gray-300 mb-4">{post.excerpt}</p>
-          <a href={`/blog/${post.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline transition-colors duration-200">
+          <Link href={`/blog/${post.slug.join('/')}`} className="text-blue-600 dark:text-blue-400 hover:underline transition-colors duration-200" passHref>
             続きを読む
-          </a>
+          </Link>
         </div>
       ))}
     </div>
