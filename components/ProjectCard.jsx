@@ -4,7 +4,7 @@ import Image from 'next/image';  // next/image をインポート
 const ProjectCard = ({ project }) => (
   <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
     <Image
-      src={`${process.env.NEXT_PUBLIC_ASSET_PREFIX}${project.image}`} // src は URL やパスを指定
+      src={`${project.image}`} // src は URL やパスを指定
       alt={project.title}
       width={300}  // 必須の width
       height={200} // 必須の height
